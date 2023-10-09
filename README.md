@@ -1,7 +1,5 @@
 # Tetris en JavaScript
 
-![Tetris Demo](tetris-demo.gif)
-
 Este es un juego de Tetris simple desarrollado en JavaScript vanilla. Juega el clásico juego de Tetris y desafía tus habilidades para encajar las piezas en el lugar correcto.
 Es parte de un reto de programación.
 
@@ -19,7 +17,6 @@ Es parte de un reto de programación.
 - Usa la tecla de flecha hacia abajo para acelerar la caída de la pieza.
 - El objetivo es llenar una fila completa para que desaparezca.
 - El juego termina cuando no puedes colocar más piezas en el tablero.
-
 
 ## Contribuciones
 

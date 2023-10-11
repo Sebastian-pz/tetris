@@ -1,4 +1,10 @@
-import { ACTION_KEYS, BOARD_HEIGHT, BOARD_WIDTH, PIECES } from "./constants";
+import {
+  ACTION_KEYS,
+  BOARD_HEIGHT,
+  BOARD_WIDTH,
+  PIECES,
+  SCORES,
+} from "./constants";
 import { board } from "../main";
 
 export const createBoard = () => {
@@ -67,7 +73,7 @@ function getRandomPiece() {
   return PIECES[Math.floor(Math.random() * PIECES.length)];
 }
 
-function removeRows() {
+function removeRows(score) {
   const rowsToRemove = [];
 
   //Find row with full values
@@ -76,6 +82,9 @@ function removeRows() {
     if (row.every((value) => value !== 0)) rowsToRemove.push(y);
   });
 
+  const numberOfRowsToRemove = rowsToRemove.length;
+  updateScore(score, getScore(numberOfRowsToRemove));
+
   rowsToRemove.forEach((y) => {
     board.splice(y, 1);
     const newRow = new Array(BOARD_WIDTH).fill(0);
@@ -83,8 +92,24 @@ function removeRows() {
   });
 }
 
+function getScore(rowsRemoved) {
+  if (SCORES[rowsRemoved]) return SCORES[rowsRemoved];
+  return 1;
+}
+
+function updateScore(score, newScore) {
+  if (
+    typeof newScore === "number" &&
+    typeof score === "number" &&
+    newScore > 0
+  ) {
+    score += newScore;
+    document.querySelector("#score__span").innerText = score;
+  }
+}
+
 //Player piece movement
-export function movePiece(key, piece) {
+export function movePiece(key, piece, score = undefined) {
   switch (key) {
     case ACTION_KEYS.LEFT:
       moveLeft(piece);
@@ -103,7 +128,7 @@ export function movePiece(key, piece) {
       if (checkCollision(board, piece)) {
         piece.position.y--;
         solidifyPiece(piece);
-        removeRows();
+        removeRows(score);
       }
       break;
     default:

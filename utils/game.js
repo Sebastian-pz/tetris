@@ -71,16 +71,22 @@ function removeRows() {
   const rowsToRemove = [];
 
   //Find row with full values
-
   board.forEach((row, y) => {
     if (row.every((value) => value !== 0)) rowsToRemove.push(y);
   });
+  const newScore = getScore(rowsToRemove.length);
 
   rowsToRemove.forEach((y) => {
     board.splice(y, 1);
     const newRow = new Array(BOARD_WIDTH).fill(0);
     board.unshift(newRow);
   });
+
+  return newScore;
+}
+
+function getScore(rowsRemoved) {
+  return 15 * rowsRemoved;
 }
 
 //Player piece movement
@@ -106,6 +112,25 @@ export function movePiece(key, piece) {
         removeRows();
       }
       break;
+    case ACTION_KEYS.ROTATE: {
+      const rotated = [];
+
+      for (let i = 0; i < piece.shape[0].length; i++) {
+        const row = [];
+        for (let j = piece.shape.length - 1; j >= 0; j--) {
+          row.push(piece.shape[j][i]);
+        }
+        rotated.push(row);
+      }
+
+      const previousShape = piece.shape;
+
+      piece.shape = rotated;
+      if (checkCollision(board, piece)) {
+        piece.shape = previousShape;
+      }
+      break;
+    }
     default:
       break;
   }

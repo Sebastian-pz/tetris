@@ -10,6 +10,13 @@ export const ACTION_KEYS = {
   ROTATE: "ArrowUp",
 };
 
+export const SCORES = {
+  1: 10,
+  2: 25,
+  3: 40,
+  4: 50,
+};
+
 const square = [
   [1, 1],
   [1, 1],

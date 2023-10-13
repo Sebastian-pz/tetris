@@ -8,7 +8,6 @@ import {
 import { createBoard, getColor, movePiece } from "./utils/game";
 
 const canvas = document.querySelector("canvas");
-
 const canvasContext = canvas.getContext("2d");
 
 canvas.width = BLOCK_SIZE * BOARD_WIDTH;
@@ -17,6 +16,9 @@ canvas.height = BLOCK_SIZE * BOARD_HEIGHT;
 canvasContext.scale(BLOCK_SIZE, BLOCK_SIZE);
 
 export const board = createBoard();
+export let score = 0;
+
+document.querySelector("#score__span").innerText = score;
 
 const playerPiece = {
   position: {
@@ -40,7 +42,7 @@ function update(time = 0) {
   dropCounter += deltaTime;
 
   if (dropCounter > SECOND) {
-    movePiece("ArrowDown", playerPiece);
+    movePiece("ArrowDown", playerPiece, score);
     dropCounter = 0;
   }
   // --------------------
@@ -78,7 +80,7 @@ function draw() {
 }
 
 document.addEventListener("keydown", (event) => {
-  movePiece(event.key, playerPiece);
+  movePiece(event.key, playerPiece, score);
 });
 
 update();
